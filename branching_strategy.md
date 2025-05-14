@@ -1,10 +1,10 @@
-# AI Purohit: Branching Strategy
+# Website: Branching Strategy
 
-This document outlines the Git branching strategy for the AI Purohit project, designed to support collaborative development while maintaining code quality and stability.
+This document outlines the Git branching strategy for the Website project, designed to support collaborative development while maintaining code quality and stability.
 
 ## Overview
 
-The AI Purohit project will follow a modified GitFlow branching strategy, tailored to our development approach and team size. This strategy provides structure for feature development, releases, and hotfixes while ensuring main branch stability.
+The Website project will follow a modified GitFlow branching strategy, tailored to our development approach and team size. This strategy provides structure for feature development, releases, and hotfixes while ensuring main branch stability.
 
 ## Branch Structure
 
