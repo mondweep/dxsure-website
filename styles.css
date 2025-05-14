@@ -318,11 +318,29 @@ nav {
     font-size: 1.1rem;
 }
 
-.contact form {
-    max-width: 600px;
+.google-form-container {
+    max-width: 800px;
     margin: 0 auto;
+    background-color: var(--light-gray);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
 }
 
+.form-note {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: var(--light-text);
+}
+
+#google-form {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+/* Old form styles - keep for reference */
 .form-group {
     margin-bottom: 20px;
 }
