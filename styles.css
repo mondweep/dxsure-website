@@ -71,6 +71,15 @@ nav {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
 }
 
 .nav-links {
@@ -385,6 +394,12 @@ footer {
 
 .footer-logo p {
     max-width: 400px;
+}
+
+.footer-logo img {
+    height: 30px;
+    width: auto;
+    margin-bottom: 15px;
 }
 
 .footer-links ul {
