@@ -1,0 +1,29 @@
+[build]
+  publish = "."
+  # No build command — pure static HTML, no framework
+
+# ─── Security & performance headers ───────────────────────────────────────────
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options            = "SAMEORIGIN"
+    X-Content-Type-Options     = "nosniff"
+    X-XSS-Protection           = "1; mode=block"
+    Referrer-Policy            = "strict-origin-when-cross-origin"
+    Permissions-Policy         = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy    = "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; frame-ancestors 'none';"
+
+# Cache HTML for a short time (so updates propagate quickly)
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300, must-revalidate"
+
+# ─── Redirects ─────────────────────────────────────────────────────────────────
+# Uncomment if you add a custom domain and want www → apex redirect
+# [[redirects]]
+#   from   = "https://www.agenticsconsulting.com/*"
+#   to     = "https://agenticsconsulting.com/:splat"
+#   status = 301
+#   force  = true
