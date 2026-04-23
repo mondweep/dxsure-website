@@ -449,7 +449,7 @@
       padding: 0.875rem 1.625rem; border-radius: var(--radius); border: none;
       cursor: pointer; transition: all 0.2s ease; margin-top: 0.5rem;
     }
-    .form-submit:hover { background-color: var(--primary-dark); box-shadow: 0 4px 14px rgba(27,59,111,0.35); }
+    .form-submit:hover { background-color: var(--primary-dark); box-shadow: 0 4px 14px rgba(51,65,85,0.35); }
     .form-submit:active { transform: translateY(1px); }
     .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
@@ -1010,52 +1010,63 @@
     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
   }
 
-  /* 4. Form submission
-     CURRENT: builds mailto: for static/GitHub Pages hosting.
-     TO MIGRATE TO ZOHO CRM: remove preventDefault + mailto
-     block; set <form action="[zoho-web-to-lead-url]">;
-     add Zoho hidden auth fields; rename name= attributes. */
+  /* 4. Form submission → Google Sheets via Apps Script
+     Apps Script doesn't support full CORS, so we use mode:'no-cors'.
+     That returns an opaque response (unreadable), but the data
+     IS written to the Sheet. Network completion without error = success.
+     TO MIGRATE TO ZOHO CRM LATER: replace SHEET_URL with your
+     Zoho Web-to-Lead URL and update field names to match Zoho's
+     expected parameters. The data-crm-field attributes on every
+     input are ready for that mapping. */
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwjAOnta4cc1BgruPNJQiq964C8PiKaCGoTbcINCwfYQRL3Jvkhdx8goRAyBLrysJTP/exec';
+
   document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     var form = this;
-    var btn = document.getElementById('form-submit-btn');
-    var f = {
-      firstName:       form.querySelector('#f-first-name').value.trim(),
-      lastName:        form.querySelector('#f-last-name').value.trim(),
-      company:         form.querySelector('#f-company').value.trim(),
-      email:           form.querySelector('#f-email').value.trim(),
-      phone:           form.querySelector('#f-phone').value.trim(),
-      serviceInterest: form.querySelector('#f-service').value,
-      message:         form.querySelector('#f-message').value.trim(),
-      utmSource:       form.querySelector('#f-utm-source').value,
-      utmCampaign:     form.querySelector('#f-utm-campaign').value,
-      ctaSource:       form.querySelector('#f-cta-source').value
-    };
-    if (!f.firstName || !f.lastName || !f.company || !f.email || !f.serviceInterest) {
+    var btn  = document.getElementById('form-submit-btn');
+
+    var firstName = form.querySelector('#f-first-name').value.trim();
+    var lastName  = form.querySelector('#f-last-name').value.trim();
+    var company   = form.querySelector('#f-company').value.trim();
+    var email     = form.querySelector('#f-email').value.trim();
+    var phone     = form.querySelector('#f-phone').value.trim();
+    var service   = form.querySelector('#f-service').value;
+    var message   = form.querySelector('#f-message').value.trim();
+
+    if (!firstName || !lastName || !company || !email || !service) {
       alert('Please fill in all required fields.'); return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       alert('Please enter a valid email address.'); return;
     }
+
     btn.disabled = true; btn.textContent = 'Sending…';
-    var subject = 'Agentics Consulting Enquiry — ' + f.firstName + ' ' + f.lastName + ' (' + f.company + ')';
-    var body = [
-      'Name: '             + f.firstName + ' ' + f.lastName,
-      'Organisation: '     + f.company,
-      'Email: '            + f.email,
-      'Phone: '            + (f.phone || 'Not provided'),
-      'Area of Interest: ' + f.serviceInterest,
-      'Lead Source: Website',
-      'UTM Source: '       + (f.utmSource || 'Direct'),
-      'UTM Campaign: '     + (f.utmCampaign || '—'),
-      'CTA Source: '       + (f.ctaSource || '—'),
-      '', 'Message:', f.message || '(No message provided)'
-    ].join('\n');
-    window.location.href = 'mailto:info@dxsure.uk?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    setTimeout(function() {
-      form.style.display = 'none';
-      document.getElementById('form-success').style.display = 'block';
-    }, 800);
+
+    var payload = new URLSearchParams({
+      name:         firstName + ' ' + lastName,
+      email:        email,
+      company:      company,
+      phone:        phone,
+      service:      service,
+      message:      message,
+      lead_source:  'Website',
+      utm_source:   form.querySelector('#f-utm-source').value,
+      utm_medium:   form.querySelector('#f-utm-medium').value,
+      utm_campaign: form.querySelector('#f-utm-campaign').value,
+      utm_content:  form.querySelector('#f-utm-content').value,
+      cta_source:   form.querySelector('#f-cta-source').value
+    });
+
+    fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: payload })
+      .then(function() {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.textContent = 'Send Enquiry';
+        alert('Sorry — there was a problem sending your enquiry. Please email us directly at info@dxsure.uk');
+      });
   });
 </script>
 
