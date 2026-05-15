@@ -1,170 +1,1085 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DxSure - AI in Healthcare Diagnostics</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="images/NewDxSureLogo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentics Consulting — AI Practitioner-Led Consulting</title>
+  <meta name="description" content="Practitioner-led AI consulting for enterprises, government and society. A trading brand of DxSure Ltd. Ambassador, Agentics Foundation London Chapter.">
+
+  <!-- Inline SVG favicon — no separate file needed -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23334155'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Narrow,sans-serif' font-weight='700' font-size='14' fill='white' letter-spacing='-0.5'>AC</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── Brand Tokens ─────────────────────────────────────────
+       Primary palette: Slate Professional (Option B)
+       Foundation accent: Coral — Ambassador badge & Foundation
+       links ONLY. One deliberate appearance explains the
+       relationship without blurring the identity boundary.
+    ──────────────────────────────────────────────────────────── */
+    :root {
+      /* Agentics Consulting own palette */
+      --primary:        #334155;
+      --primary-dark:   #1E293B;
+      --primary-light:  rgba(51, 65, 85, 0.08);
+      --primary-mid:    rgba(51, 65, 85, 0.15);
+      --bg:             #FAFAFA;
+      --fg:             #0F172A;
+      --secondary:      #6B7280;
+      --muted:          #E2E8F0;
+      --white:          #FFFFFF;
+      --radius:         32px;
+      --radius-sm:      28px;
+
+      /* Contact / footer dark surfaces */
+      --surface-dark:   #1E293B;
+      --footer-dark:    #0F172A;
+
+      /* Foundation accent — coral used exclusively for
+         Ambassador badge and Agentics Foundation links */
+      --foundation:     #E25C3D;
+      --foundation-dark:#C74D2F;
+      --foundation-bg:  #FAECE7;
+      --foundation-text:#7A2E18;
+    }
+
+    /* ─── Reset / Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      background-color: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    a { color: var(--primary); text-decoration: none; transition: color 0.2s ease; }
+    a:hover { color: var(--primary-dark); }
+    a:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ─── Foundation link — coral, signals external Foundation domain */
+    .foundation-link {
+      color: var(--foundation) !important;
+      font-weight: 600;
+    }
+    .foundation-link:hover { color: var(--foundation-dark) !important; }
+
+    /* ─── Ambassador badge ─────────────────────────────────────
+       The ONE place coral appears as a UI element.
+       Used in trust bar, about stats, contact footer note.
+    ──────────────────────────────────────────────────────────── */
+    .ambassador-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--foundation-bg);
+      color: var(--foundation-text);
+      border: 1px solid rgba(226, 92, 61, 0.22);
+      padding: 0.3rem 0.875rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .ambassador-badge .amb-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--foundation);
+      flex-shrink: 0;
+    }
+    /* Inline ambassador text (within prose) */
+    .ambassador-inline {
+      color: var(--foundation-text);
+      font-weight: 600;
+    }
+
+    /* ─── Layout ───────────────────────────────────────────── */
+    .container {
+      max-width: 1080px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    section { padding: 5rem 0; }
+    .divider { border: none; border-top: 1px solid var(--muted); }
+
+    /* ─── Typography helpers ───────────────────────────────── */
+    .section-tag {
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 0.625rem;
+    }
+    .section-title { font-size: clamp(1.875rem, 4vw, 2.5rem); margin-bottom: 1rem; }
+    .section-subtitle {
+      font-size: 0.9rem; color: var(--secondary);
+      max-width: 560px; line-height: 1.85; margin-bottom: 3rem;
+    }
+
+    /* ─── Buttons ──────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8125rem; font-weight: 700;
+      padding: 0.75rem 1.625rem;
+      border-radius: var(--radius);
+      border: 2px solid transparent;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s ease; white-space: nowrap;
+    }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(27, 59, 111, 0.35);
+    }
+
+    .btn-ghost {
+      background-color: transparent;
+      color: var(--primary); border-color: var(--primary);
+    }
+    .btn-ghost:hover { background-color: var(--primary); color: var(--white); }
+
+    /* Dark-surface ghost (used inside dark sections) */
+    .btn-ghost-light {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8125rem; font-weight: 600;
+      padding: 0.75rem 1.625rem;
+      border-radius: var(--radius);
+      border: 2px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.75);
+      text-decoration: none; transition: all 0.2s ease;
+    }
+    .btn-ghost-light:hover { border-color: rgba(255,255,255,0.55); color: #fff; }
+
+    /* ─── Cards ────────────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--muted);
+      border-radius: var(--radius); padding: 2rem;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: 0 12px 28px -6px rgba(27, 59, 111, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* ─── Navigation ───────────────────────────────────────── */
+    .nav-wrap {
+      background: rgba(248,249,252,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--muted);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 1.5rem;
+      padding: 1.125rem 2rem;
+      max-width: 1080px; margin: 0 auto;
+    }
+    .logo-wrap { display: flex; flex-direction: column; gap: 0.1rem; text-decoration: none; }
+    .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--fg); text-decoration: none;
+      letter-spacing: -0.01em; white-space: nowrap;
+    }
+    /* The dot in the logo is navy — it's our brand mark, not Foundation coral */
+    .logo-dot { color: var(--primary); }
+    .logo-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem; font-weight: 400;
+      color: var(--secondary); letter-spacing: 0.04em;
+      white-space: nowrap; line-height: 1;
+    }
+
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--secondary); font-size: 0.8rem;
+      font-weight: 500; text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: var(--fg); }
+
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px; border: none; background: none;
+    }
+    .nav-toggle span {
+      display: block; width: 22px; height: 2px;
+      background: var(--fg); border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+
+    /* ─── Hero ─────────────────────────────────────────────── */
+    .hero { padding: 7rem 2rem 5.5rem; text-align: center; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 0.4rem 1rem; border-radius: var(--radius-sm);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--primary); opacity: 0.5;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.75rem, 7vw, 5rem);
+      max-width: 820px; margin: 0 auto 1.625rem;
+    }
+    /* em in h1 uses primary navy — our own brand colour, distinct from Foundation */
+    .hero h1 em { color: var(--primary); font-style: normal; }
+
+    .hero-lead {
+      font-size: 0.9375rem; color: var(--secondary);
+      max-width: 580px; margin: 0 auto 2.75rem; line-height: 1.9;
+    }
+    .hero-cta { display: flex; gap: 0.875rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── Trust bar ────────────────────────────────────────── */
+    .trust-bar {
+      background: var(--white);
+      border-top: 1px solid var(--muted);
+      border-bottom: 1px solid var(--muted);
+      padding: 1.125rem 2rem;
+    }
+    .trust-bar-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: center; gap: 1rem;
+      flex-wrap: wrap; font-size: 0.75rem;
+      color: var(--secondary); font-weight: 500;
+    }
+    .trust-sep {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--muted); flex-shrink: 0;
+    }
+    .trust-bar-inner strong { color: var(--fg); font-weight: 600; }
+
+    /* ─── Pillars ──────────────────────────────────────────── */
+    .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    .pillar-icon {
+      width: 44px; height: 44px; border-radius: 14px;
+      background: var(--primary-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; margin-bottom: 1.125rem; color: var(--primary);
+    }
+
+    /* ─── Partner capabilities ─────────────────────────────── */
+    .members-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    .member-card {
+      background: var(--white);
+      border: 1px solid var(--muted);
+      border-radius: var(--radius); padding: 1.75rem 2rem;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .member-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 10px 24px -6px rgba(27, 59, 111, 0.14);
+      transform: translateY(-2px);
+    }
+    .member-card.add-more {
+      border: 2px dashed var(--muted);
+      background: transparent;
+      align-items: center; justify-content: center;
+      text-align: center; min-height: 220px;
+    }
+    .member-card.add-more:hover { border-color: var(--primary); background: var(--primary-light); }
+
+    .member-tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 0.3rem 0.7rem; border-radius: var(--radius-sm);
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 0.875rem; align-self: flex-start;
+    }
+    .member-name { font-size: 1.125rem; margin-bottom: 0.625rem; color: var(--fg); }
+    .member-name span { color: var(--primary); }
+    .member-desc { color: var(--secondary); font-size: 0.8rem; line-height: 1.85; flex: 1; margin-bottom: 1.25rem; }
+    .member-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: auto; }
+    .member-link { font-size: 0.7rem; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: 0.03em; }
+    .member-link:hover { color: var(--primary-dark); }
+    .member-enquire {
+      font-size: 0.7rem; font-weight: 700;
+      color: var(--secondary); background: transparent;
+      border: 1px solid var(--muted); border-radius: var(--radius-sm);
+      padding: 0.3rem 0.75rem; cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      transition: all 0.2s ease; text-decoration: none;
+    }
+    .member-enquire:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ─── Services ─────────────────────────────────────────── */
+    .services-bg { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .service-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+    .service-card p { color: var(--secondary); font-size: 0.8125rem; line-height: 1.85; margin-bottom: 1.125rem; }
+    .service-list { color: var(--secondary); font-size: 0.75rem; line-height: 2.1; padding-left: 1.125rem; list-style: disc; margin-bottom: 1.25rem; }
+    .service-enquire {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      color: var(--primary); background: transparent; border: none;
+      cursor: pointer; font-family: 'IBM Plex Mono', monospace;
+      padding: 0; letter-spacing: 0.03em;
+      transition: color 0.2s ease; text-decoration: none;
+    }
+    .service-enquire:hover { color: var(--primary-dark); }
+
+    /* ─── About ────────────────────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
+    .stat-card {
+      background: var(--white); border: 1px solid var(--muted);
+      border-radius: var(--radius); padding: 1.5rem 1.75rem;
+    }
+    .stat-card .stat-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.25rem; font-weight: 600; line-height: 1; margin-bottom: 0.375rem;
+    }
+    .stat-card .stat-label { font-size: 0.775rem; color: var(--secondary); line-height: 1.6; }
+
+    /* Ambassador stat card — the one place coral appears in this section */
+    .stat-card.ambassador-card {
+      background: var(--foundation-bg);
+      border-color: rgba(226, 92, 61, 0.2);
+    }
+    .stat-card.ambassador-card .stat-value {
+      color: var(--foundation-text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.375rem; letter-spacing: 0;
+    }
+    .stat-card.ambassador-card .stat-label { color: #8B3A1E; }
+
+    /* ─── Contact section ──────────────────────────────────── */
+    .contact-section { background: var(--surface-dark); padding: 5rem 0; }
+
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.6fr;
+      gap: 4rem; align-items: start;
+    }
+    .contact-left { color: rgba(255,255,255,0.8); }
+    .contact-eyebrow {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(27,59,111,0.6); margin-bottom: 0.75rem;
+    }
+    /* Eyebrow on dark surface */
+    .contact-section .contact-eyebrow {
+      color: rgba(147,182,255,0.7);
+    }
+    .contact-left h2 { font-size: clamp(2rem, 4vw, 3rem); color: #fff; margin-bottom: 1.125rem; }
+    .contact-left p { font-size: 0.875rem; color: rgba(255,255,255,0.55); line-height: 1.9; margin-bottom: 2rem; }
+
+    .contact-detail { display: flex; align-items: center; gap: 0.75rem; font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem; }
+    .contact-detail a { color: #93B4FF; font-weight: 600; }
+    .contact-detail a:hover { color: #fff; }
+    .contact-detail-icon {
+      width: 32px; height: 32px; border-radius: 10px;
+      background: rgba(147,182,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.875rem; flex-shrink: 0;
+    }
+
+    /* Ambassador note in contact — coral badge on dark surface */
+    .contact-ambassador-note {
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      line-height: 1.8;
+    }
+
+    /* ─── Contact Form ─────────────────────────────────────── */
+    .contact-form-card { background: var(--bg); border-radius: var(--radius); padding: 2.5rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.375rem; }
+    .form-group label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--secondary);
+    }
+    .form-group .required-star { color: var(--primary); }
+
+    .form-input, .form-select, .form-textarea {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.8125rem;
+      color: var(--fg); background: var(--white);
+      border: 2px solid var(--muted); border-radius: 30px;
+      padding: 0.7rem 1rem; width: 100%;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; outline: none;
+    }
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center;
+      padding-right: 2.5rem; cursor: pointer;
+    }
+    .form-textarea { border-radius: 20px; resize: vertical; min-height: 110px; line-height: 1.6; }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(27, 59, 111, 0.1);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+
+    .form-submit {
+      width: 100%; background-color: var(--primary); color: var(--white);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.875rem; font-weight: 700;
+      padding: 0.875rem 1.625rem; border-radius: var(--radius); border: none;
+      cursor: pointer; transition: all 0.2s ease; margin-top: 0.5rem;
+    }
+    .form-submit:hover { background-color: var(--primary-dark); box-shadow: 0 4px 14px rgba(51,65,85,0.35); }
+    .form-submit:active { transform: translateY(1px); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-note { font-size: 0.7rem; color: var(--secondary); margin-top: 0.875rem; line-height: 1.7; text-align: center; }
+
+    .form-success { display: none; text-align: center; padding: 2rem 1rem; }
+    .form-success-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--primary-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin: 0 auto 1rem; color: var(--primary);
+    }
+    .form-success h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--fg); }
+    .form-success p { font-size: 0.8rem; color: var(--secondary); line-height: 1.8; }
+
+    /* ─── Footer ───────────────────────────────────────────── */
+    footer {
+      background: var(--footer-dark);
+      color: rgba(255,255,255,0.4);
+      padding: 3rem 2rem; font-size: 0.775rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 2rem; flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.375rem;
+      font-weight: 600; color: #fff; letter-spacing: -0.01em;
+      display: block; margin-bottom: 0.5rem;
+    }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.625rem; }
+    .footer-links a { color: rgba(255,255,255,0.35); font-size: 0.75rem; text-decoration: none; transition: color 0.2s ease; }
+    .footer-links a:hover { color: #fff; }
+    .footer-right { text-align: right; }
+    .footer-right p { margin-bottom: 0.375rem; }
+    /* Foundation link in footer uses coral so it's clearly external */
+    .footer-foundation-link {
+      color: rgba(226,92,61,0.6) !important;
+      font-weight: 500;
+    }
+    .footer-foundation-link:hover { color: var(--foundation) !important; }
+
+    /* ─── Responsive ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .pillars-grid  { grid-template-columns: repeat(2, 1fr); }
+      .members-grid  { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      section, .contact-section { padding: 3.5rem 0; }
+      .hero { padding: 4rem 1.5rem 3rem; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--muted); padding: 1rem 2rem; gap: 1rem; z-index: 99; }
+      .nav-toggle { display: flex; }
+      .pillars-grid  { grid-template-columns: 1fr; }
+      .members-grid  { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .about-grid    { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-grid  { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row      { grid-template-columns: 1fr; }
+      .footer-right  { text-align: left; }
+    }
+    @media (max-width: 540px) {
+      .trust-bar-inner { flex-direction: column; gap: 0.625rem; text-align: center; }
+      .trust-sep { display: none; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <a href="index.html">
-                        <img src="images/NewDxSureLogo.png" alt="DxSure Logo" class="logo-image">
-                    </a>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#expertise">Expertise</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact" class="btn btn-primary">Contact Us</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>TRANSFORMING MEDICAL DIAGNOSTICS</h1>
-            <p class="lead">We combine clinical expertise with AI capabilities to <strong>build diagnostic systems that deliver faster, smarter, and more reliable results for healthcare providers worldwide.</strong></p>
-            <a href="#contact" class="btn btn-primary">Connect Now</a>
-        </div>
-    </section>
+<!-- ══════════════════════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════════════════════════ -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <a href="#" class="logo-wrap">
+      <span class="logo">Agentics<span class="logo-dot">.</span>Consulting</span>
+      <span class="logo-sub">Agentic AI Consulting by DxSure Ltd</span>
+    </a>
 
-    <section class="about" id="about">
-        <div class="container">
-            <h2>Built for Healthcare Innovation</h2>
-            <h3>AI-enabled Assistant for Medical Diagnostics</h3>
-            <p>DxSure is working on AI-powered digital products that enhance existing diagnostic tools by analyzing multimodal medical data, including MRI and whole-slide images, accelerating healthcare professionals' ability to deliver accurate, explainable diagnoses. Our solution integrates advanced AI, deep learning, explainability frameworks, and privacy-preserving techniques to improve diagnostic precision, support clinical decision-making, and build trust in AI-assisted healthcare.</p>
-        </div>
-    </section>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#offerings">Capabilities</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
 
-    <section class="expertise" id="expertise">
-        <div class="container">
-            <h2>Areas of Focus – What We Are Building</h2>
-            <h3>Unified purpose. Transforming healthcare.</h3>
-            <p>Healthcare is evolving rapidly, and we're building solutions to match. DxSure delivers <strong>AI-native platforms across the diagnostic workflow, from data collection to diagnosis assistance.</strong> Our comprehensive approach means no patchwork solutions or multiple vendors. Just one integrated system, built for clinical reliability and ready to solve real healthcare challenges.</p>
-            
-            <div class="expertise-grid">
-                <div class="expertise-card">
-                    <h4>AI Thought Leadership</h4>
-                    <p>Developing practical and consumable points of view on AI models and their applications in healthcare diagnostics.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>Responsible AI Adoption</h4>
-                    <p>Exploring and documenting safe and scalable approaches to AI adoption across healthcare sectors with patient safety at the center.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>Regulatory Compliance</h4>
-                    <p>Evaluating the impact of evolving regulations, such as the EU Data Act, EU AI Act on AI development and deployment in healthcare settings.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>Prototyping and Innovation</h4>
-                    <p>Creating prototype applications and points of view addressed at specific healthcare diagnostic needs.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>Delivery Excellence</h4>
-                    <p>Developing practical frameworks for successful project and program delivery in clinical environments.</p>
-                </div>
-                <div class="expertise-card">
-                    <h4>Go-to-Market Strategy</h4>
-                    <p>Engaging with potential customers, advisors, investors, and collaborators to validate and refine our healthcare diagnostics products.</p>
-                </div>
+    <a href="#contact" class="btn btn-primary" data-cta-source="nav">Work With Us</a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation menu"
+      onclick="var n=document.getElementById('nav-links');n.style.display=n.style.display==='flex'?'none':'flex'">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════════ -->
+<div class="hero container">
+  <div class="hero-eyebrow">
+    <span class="hero-eyebrow-dot"></span>
+    AI Practitioner-Led Consulting &nbsp;&middot;&nbsp; UK &middot; Ireland &middot; Channel Islands &middot; Global
+  </div>
+
+  <h1>The <em>Unfair Advantage</em><br>in AI Adoption</h1>
+
+  <p class="hero-lead">
+    A collective of AI innovators, engineers and strategists — drawn from a practitioner network spanning the UK, Ireland, Channel Islands and beyond — turning responsible AI strategy into measurable impact for enterprises, government and society.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#contact" class="btn btn-primary" data-cta-source="hero">Partner With Us</a>
+    <a href="#about" class="btn btn-ghost">How We Work</a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TRUST BAR
+     The Ambassador badge is its own component here —
+     the coral calls out the Foundation relationship clearly.
+═══════════════════════════════════════════════════════════════ -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <span>A trading brand of <strong>DxSure Ltd</strong> &middot; Co. No. 15957322</span>
+    <span class="trust-sep"></span>
+    <span class="ambassador-badge">
+      <span class="amb-dot"></span>
+      Ambassador &middot; Agentics Foundation London Chapter
+    </span>
+    <span class="trust-sep"></span>
+    <span>UK &middot; Ireland &middot; Channel Islands &middot; Global</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     VALUE PILLARS
+═══════════════════════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-tag">Why Agentics Consulting</div>
+    <h2 class="section-title">Practitioner Edge,<br>Corporate Confidence</h2>
+    <p class="section-subtitle">
+      We are not a traditional consultancy. We are boundary-breakers from inside the AI community — combining deep technical fluency with responsible adoption strategy and real delivery. As an Ambassador of the <a href="https://london.agentics.org?utm_source=agentics-consulting&utm_medium=website&utm_campaign=ambassador" target="_blank" rel="noopener" class="foundation-link">Agentics Foundation London Chapter</a>, our practitioner network spans the UK, Ireland, Channel Islands and the global Foundation membership. That combination is your unfair advantage.
+    </p>
+
+    <div class="pillars-grid">
+      <div class="card">
+        <div class="pillar-icon">⬡</div>
+        <h3 style="font-size:1.25rem; margin-bottom:0.75rem;">Continuous Learning Culture</h3>
+        <p style="color:var(--secondary); font-size:0.8375rem; line-height:1.85;">
+          Our practitioners never stop testing the art of possibilities. Embedded in a practitioner network spanning the UK, Ireland, Channel Islands and the global Agentics Foundation, we bring the freshest advances directly to your organisation — before they become mainstream.
+        </p>
+      </div>
+      <div class="card">
+        <div class="pillar-icon">◈</div>
+        <h3 style="font-size:1.25rem; margin-bottom:0.75rem;">Trusted, Capable Experts</h3>
+        <p style="color:var(--secondary); font-size:0.8375rem; line-height:1.85;">
+          A curated, vetted community of AI engineers, ethicists, product leaders and domain specialists. You get proven practitioners solving real problems — not bench-warming generalists.
+        </p>
+      </div>
+      <div class="card">
+        <div class="pillar-icon">▲</div>
+        <h3 style="font-size:1.25rem; margin-bottom:0.75rem;">Real-World Impact Delivery</h3>
+        <p style="color:var(--secondary); font-size:0.8375rem; line-height:1.85;">
+          Theory lands in production. Growth, value creation, productivity gains and risk mitigation — we measure success by the outcomes your business sees, not the slides we deliver.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PARTNER CAPABILITIES
+═══════════════════════════════════════════════════════════════ -->
+<section id="offerings">
+  <div class="container">
+    <div class="section-tag">Partner Capabilities</div>
+    <h2 class="section-title">Specialist Capabilities<br>Under One Roof</h2>
+    <p class="section-subtitle">
+      Agentics Consulting brings together distinct, cutting-edge AI capabilities from a curated network of partner organisations — surfaced as a coherent, enterprise-ready offer for your business.
+    </p>
+
+    <div class="members-grid">
+
+      <div class="member-card">
+        <span class="member-tag">Agent Automation</span>
+        <h3 class="member-name">OpenClawCity<span>.ai</span></h3>
+        <p class="member-desc">AI agent orchestration and automation frameworks. Designing multi-agent architectures that automate complex enterprise workflows, eliminate manual bottlenecks and unlock entirely new operating models.</p>
+        <div class="member-actions">
+          <a href="https://openclawcity.ai/?utm_source=agentics-consulting&utm_medium=website&utm_campaign=partner-showcase&utm_content=openclaw" target="_blank" rel="noopener" class="member-link">Explore →</a>
+          <button class="member-enquire" onclick="setServiceInterest('Implementation &amp; Delivery')">Enquire</button>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <span class="member-tag">Creative AI</span>
+        <h3 class="member-name">DreamLab-AI</h3>
+        <p class="member-desc">Applied generative AI for media, product and brand. Combines creative direction with frontier models to build differentiated content pipelines and customer-facing AI product experiences.</p>
+        <div class="member-actions">
+          <a href="https://dreamlab-ai.com/?utm_source=agentics-consulting&utm_medium=website&utm_campaign=partner-showcase&utm_content=dreamlab" target="_blank" rel="noopener" class="member-link">Explore →</a>
+          <button class="member-enquire" onclick="setServiceInterest('AI as a Service (AIaaS)')">Enquire</button>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <span class="member-tag">AI Marketplace</span>
+        <h3 class="member-name">Bencium<span>.io</span></h3>
+        <p class="member-desc">An open AI capabilities marketplace connecting enterprises to vetted models, tools and practitioners — accelerating the discovery and procurement of trusted AI solutions at scale.</p>
+        <div class="member-actions">
+          <a href="https://www.bencium.io/?utm_source=agentics-consulting&utm_medium=website&utm_campaign=partner-showcase&utm_content=bencium" target="_blank" rel="noopener" class="member-link">Explore →</a>
+          <button class="member-enquire" onclick="setServiceInterest('AI as a Service (AIaaS)')">Enquire</button>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <span class="member-tag">Healthcare AI</span>
+        <h3 class="member-name">PsychoOncology<span>Hub</span></h3>
+        <p class="member-desc">AI-powered tools and knowledge for psycho-oncology care pathways. Demonstrating responsible AI in high-stakes clinical environments where accuracy, trust and explainability are non-negotiable.</p>
+        <div class="member-actions">
+          <a href="https://psychooncologyhub.com/?utm_source=agentics-consulting&utm_medium=website&utm_campaign=partner-showcase&utm_content=psychooncologyhub" target="_blank" rel="noopener" class="member-link">Explore →</a>
+          <button class="member-enquire" onclick="setServiceInterest('Responsible AI &amp; Governance')">Enquire</button>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <span class="member-tag">Knowledge Graph AI</span>
+        <h3 class="member-name">SGraph<span>.ai</span></h3>
+        <p class="member-desc">Semantic graph intelligence for enterprise data. Turning complex, siloed information into connected knowledge that LLMs can reason over — unlocking deeper, more reliable AI insight across your organisation.</p>
+        <div class="member-actions">
+          <a href="https://sgraph.ai/en-us/?utm_source=agentics-consulting&utm_medium=website&utm_campaign=partner-showcase&utm_content=sgraph" target="_blank" rel="noopener" class="member-link">Explore →</a>
+          <button class="member-enquire" onclick="setServiceInterest('Implementation &amp; Delivery')">Enquire</button>
+        </div>
+      </div>
+
+      <div class="member-card add-more">
+        <div style="font-size:1.75rem; color:var(--muted); margin-bottom:0.875rem; line-height:1;">+</div>
+        <h3 style="font-size:0.9375rem; color:var(--secondary); font-family:'IBM Plex Mono',monospace; font-weight:500; margin-bottom:0.5rem;">Growing Partner Network</h3>
+        <p style="font-size:0.75rem; color:var(--muted); line-height:1.8; margin-bottom:1rem;">Additional partner capabilities added as the network grows.</p>
+        <button class="member-enquire" onclick="setServiceInterest('General Enquiry')">Discuss joining</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SERVICES
+═══════════════════════════════════════════════════════════════ -->
+<section id="services" class="services-bg">
+  <div class="container">
+    <div class="section-tag">What We Deliver</div>
+    <h2 class="section-title">From Strategy<br>to Production</h2>
+    <p class="section-subtitle">
+      Whether you're navigating your first AI adoption or scaling AI across the enterprise — we meet you where you are and deliver what actually moves the needle.
+    </p>
+
+    <div class="services-grid">
+      <div class="card service-card">
+        <h3>AI Strategy &amp; Readiness</h3>
+        <p>Define your AI vision, assess organisational readiness, identify high-value use cases and build a roadmap your board and teams can rally behind.</p>
+        <ul class="service-list">
+          <li>AI opportunity mapping &amp; prioritisation</li>
+          <li>Risk &amp; ethics assessment</li>
+          <li>Board-level AI narrative</li>
+          <li>Build vs buy vs partner analysis</li>
+        </ul>
+        <button class="service-enquire" onclick="setServiceInterest('AI Strategy &amp; Readiness')">Enquire about this service →</button>
+      </div>
+
+      <div class="card service-card">
+        <h3>AI as a Service (AIaaS)</h3>
+        <p>Access curated AI capabilities from our partner network on a subscription or project basis — without building an internal AI function from scratch.</p>
+        <ul class="service-list">
+          <li>Managed AI model access</li>
+          <li>Embedded AI practitioners</li>
+          <li>Rapid prototyping sprints</li>
+          <li>Ongoing AI optimisation &amp; monitoring</li>
+        </ul>
+        <button class="service-enquire" onclick="setServiceInterest('AI as a Service (AIaaS)')">Enquire about this service →</button>
+      </div>
+
+      <div class="card service-card">
+        <h3>Implementation &amp; Delivery</h3>
+        <p>Hands-on delivery of AI products, agent systems and automation pipelines — from architecture through to production, with change management built in.</p>
+        <ul class="service-list">
+          <li>Agentic workflow design &amp; build</li>
+          <li>LLM integration &amp; fine-tuning</li>
+          <li>MLOps &amp; production infrastructure</li>
+          <li>Adoption &amp; enablement programmes</li>
+        </ul>
+        <button class="service-enquire" onclick="setServiceInterest('Implementation &amp; Delivery')">Enquire about this service →</button>
+      </div>
+
+      <div class="card service-card">
+        <h3>Responsible AI &amp; Governance</h3>
+        <p>Navigate regulation, manage AI risk and build stakeholder trust. We help organisations adopt AI in ways that are defensible, explainable and sustainable.</p>
+        <ul class="service-list">
+          <li>AI governance frameworks</li>
+          <li>EU AI Act &amp; UK regulatory alignment</li>
+          <li>Bias audit &amp; explainability tooling</li>
+          <li>Responsible AI policy design</li>
+        </ul>
+        <button class="service-enquire" onclick="setServiceInterest('Responsible AI &amp; Governance')">Enquire about this service →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <div>
+        <div class="section-tag">About Agentics Consulting</div>
+        <h2 class="section-title">Practitioner-Led.<br>Commercially Focused.</h2>
+        <p style="color:var(--secondary); font-size:0.9rem; line-height:1.9; margin-bottom:1.25rem;">
+          Agentics Consulting is a trading brand of <strong style="color:var(--fg);">DxSure Ltd</strong> — the legal entity that works with partner organisations to bring specialist AI capabilities coherently to market. DxSure Ltd holds Ambassador status with the Agentics Foundation London Chapter.
+        </p>
+        <p style="color:var(--secondary); font-size:0.9rem; line-height:1.9; margin-bottom:1.25rem;">
+          Our practitioner network is aligned to the London Chapter but spans the UK, Ireland and the Channel Islands — with access to the wider global Agentics Foundation membership base. These are innovators and engineers continuously testing what's possible and building real systems.
+        </p>
+        <p style="color:var(--secondary); font-size:0.9rem; line-height:1.9; margin-bottom:2rem;">
+          We believe in a culture of continuous learning, a trusted community of capable experts, and delivery that drives measurable impact — in industry, government and society.
+        </p>
+        <div style="display:flex; gap:0.875rem; flex-wrap:wrap;">
+          <a href="#contact" class="btn btn-primary" style="font-size:0.75rem; padding:0.6rem 1.25rem;" data-cta-source="about">Get In Touch</a>
+          <a href="https://find-and-update.company-information.service.gov.uk/company/15957322" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:0.75rem; padding:0.6rem 1.25rem;">DxSure Ltd &middot; Companies House</a>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:1rem;" id="foundation">
+
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--primary);">DxSure Ltd</div>
+          <div class="stat-label">Legal entity &mdash; Co. No. 15957322 &mdash; Registered in England &amp; Wales</div>
+        </div>
+
+        <!-- Ambassador card — the deliberate coral appearance in this section -->
+        <div class="stat-card ambassador-card">
+          <div class="stat-value">Ambassador</div>
+          <div class="stat-label">
+            <a href="https://london.agentics.org?utm_source=agentics-consulting&utm_medium=website&utm_campaign=ambassador" target="_blank" rel="noopener" class="foundation-link">Agentics Foundation London Chapter</a>
+            &mdash; with access to the global Foundation membership network
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value">UK &middot; IE &middot; CI</div>
+          <div class="stat-label">Practitioner network spanning the UK, Ireland and Channel Islands &mdash; plus global reach through the Foundation</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value">5+</div>
+          <div class="stat-label">Partner organisations at launch &mdash; agent AI, creative AI, healthcare AI, knowledge graph &amp; AI marketplace</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CONTACT
+     ─ CRM integration notes ─────────────────────────────────
+     Current: mailto:info@dxsure.uk (static / GitHub Pages)
+     To connect Zoho CRM Web-to-Lead:
+       1. Zoho CRM > Setup > Developer Space > Webforms
+       2. Map fields using data-crm-field attributes below
+       3. Replace <form> action with Zoho Web-to-Lead URL
+       4. Add hidden auth fields: xnQsjsdp, zc_gad, actionType
+       5. Rename `name` attrs to Zoho field names
+     Alternatively embed a Zoho Forms form (available now
+     with ZohoMail) in place of the <form> element.
+     UTM hidden fields auto-populate from URL params and
+     will carry through to each CRM lead record.
+═══════════════════════════════════════════════════════════════ -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="contact-left">
+        <div class="contact-eyebrow">Ready When You Are</div>
+        <h2>Turn AI Ambition Into<br>Competitive Reality</h2>
+        <p>No boilerplate decks. Just sharp thinking and real delivery from practitioners who actually build with AI. Tell us what you're working on and we'll respond within one business day.</p>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon">✉</div>
+          <span>Email us at <a href="mailto:info@dxsure.uk">info@dxsure.uk</a></span>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">◈</div>
+          <span>London-based &middot; UK, Ireland &amp; Channel Islands</span>
+        </div>
+
+        <div class="contact-ambassador-note">
+          DxSure Ltd &middot; Co. No. 15957322<br>
+          <span class="ambassador-badge" style="margin-top:0.625rem; display:inline-flex;">
+            <span class="amb-dot"></span>
+            Ambassador &middot; <a href="https://london.agentics.org?utm_source=agentics-consulting&utm_medium=website&utm_campaign=ambassador" target="_blank" rel="noopener" style="color:var(--foundation-text); margin-left:0.3rem;">Agentics Foundation London Chapter</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <form id="contact-form" novalidate>
+
+          <!-- Hidden CRM / UTM fields — map to Zoho CRM Lead fields on migration -->
+          <input type="hidden" name="lead_source"  id="f-lead-source"  value="Website"  data-crm-field="Lead Source">
+          <input type="hidden" name="utm_source"   id="f-utm-source"   value=""         data-crm-field="CF_UTM_Source">
+          <input type="hidden" name="utm_medium"   id="f-utm-medium"   value=""         data-crm-field="CF_UTM_Medium">
+          <input type="hidden" name="utm_campaign" id="f-utm-campaign" value=""         data-crm-field="CF_UTM_Campaign">
+          <input type="hidden" name="utm_content"  id="f-utm-content"  value=""         data-crm-field="CF_UTM_Content">
+          <input type="hidden" name="cta_source"   id="f-cta-source"   value=""         data-crm-field="CF_CTA_Source">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-first-name">First name <span class="required-star">*</span></label>
+              <input class="form-input" type="text" id="f-first-name" name="firstName" placeholder="Jane" required autocomplete="given-name" data-crm-field="First Name">
             </div>
-        </div>
-    </section>
-
-    <section class="services" id="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>AI Diagnostic Assistance</h3>
-                    <p>Our AI-powered systems analyse multimodal medical data to assist clinicians in making faster, more accurate diagnoses while maintaining human oversight.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Regulatory Consulting</h3>
-                    <p>Navigate the complex regulatory landscape with our expertise in healthcare AI compliance, ensuring your solutions meet all requirements.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Healthcare AI Strategy</h3>
-                    <p>Develop comprehensive strategies for implementing AI solutions in clinical workflows with our guidance and expertise.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Custom AI Solutions</h3>
-                    <p>Tailored AI development for specific diagnostic challenges in your healthcare organization or practice.</p>
-                </div>
+            <div class="form-group">
+              <label for="f-last-name">Last name <span class="required-star">*</span></label>
+              <input class="form-input" type="text" id="f-last-name" name="lastName" placeholder="Smith" required autocomplete="family-name" data-crm-field="Last Name">
             </div>
-        </div>
-    </section>
+          </div>
 
-    <section class="cta">
-        <div class="container">
-            <h2>Experience Innovation in Diagnostics</h2>
-            <h3>Demo our solutions today.</h3>
-            <p>Step into the future of AI-assisted diagnostics. Whether you're exploring MRI analysis or testing privacy-preserving diagnostic tools, we invite you to experience the power behind our platform. Live and in action.</p>
-            <a href="#contact" class="btn btn-primary">Request a Demo</a>
-        </div>
-    </section>
+          <div class="form-group">
+            <label for="f-company">Organisation <span class="required-star">*</span></label>
+            <input class="form-input" type="text" id="f-company" name="company" placeholder="Acme Corp" required autocomplete="organization" data-crm-field="Company">
+          </div>
 
-    <section class="future">
-        <div class="container">
-            <h2>Built for Today. Ready for Tomorrow.</h2>
-            <p>With major innovations ahead in medical diagnostics AI, <strong>we are accelerating fast,</strong> and you're witnessing it from the start. From trusted diagnostic assistants to groundbreaking explainable AI models for clinical applications, <strong>our reach is expanding and our vision knows no limits.</strong> The future of healthcare diagnostics is coming, and it's coming from <strong>DxSure</strong>.</p>
-            <a href="#contact" class="btn btn-secondary">Connect Now</a>
-        </div>
-    </section>
-
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2>Get in Touch</h2>
-            <p>Interested in learning more about DxSure or exploring collaboration opportunities? Reach out to us.</p>
-            
-            <div class="google-form-container">
-                <p class="form-note">Fill out the form below or email us directly at <a href="mailto:info@dxsure.uk">info@dxsure.uk</a></p>
-                <!-- Replace the URL below with your actual Google Form embed URL -->
-                <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSdoeQen6lY13xW7FLwjPXYTJ2CzsYWaFNAMZw0NhExpforBQw/viewform?embedded=true" 
-                    width="100%" height="650" frameborder="0" marginheight="0" marginwidth="0">
-                    Loading…
-                </iframe>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-email">Work email <span class="required-star">*</span></label>
+              <input class="form-input" type="email" id="f-email" name="email" placeholder="jane@acme.com" required autocomplete="email" data-crm-field="Email">
             </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h3>DxSure</h3>
-                    <img src="images/NewDxSureLogo.png" alt="DxSure Logo" class="footer-logo-image">
-    <p>Making medical diagnostics accessible, reliable, and trustworthy for healthcare providers worldwide.</p>
-                </div>
-                <div class="footer-links">
-                    <ul>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#expertise">Expertise</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
+            <div class="form-group">
+              <label for="f-phone">Phone</label>
+              <input class="form-input" type="tel" id="f-phone" name="phone" placeholder="+44 7700 900000" autocomplete="tel" data-crm-field="Phone">
             </div>
-            <div class="footer-bottom">
-                <p>DxSure LTD is a company registered in England and Wales. The Companies House number is 15957322.</p>
-                <p>&copy; 2023 DxSure. All rights reserved.</p>
-                <p>
-                    <a href="privacy.html">Privacy Notice</a> | 
-                    <a href="terms.html">Terms of Use</a>
-                </p>
-            </div>
-        </div>
-    </footer>
+          </div>
 
-    <script src="script.js"></script>
+          <div class="form-group">
+            <label for="f-service">Area of interest <span class="required-star">*</span></label>
+            <select class="form-select" id="f-service" name="serviceInterest" required data-crm-field="LEADCF_ServiceInterest">
+              <option value="" disabled selected>Select a service area…</option>
+              <option value="AI Strategy &amp; Readiness">AI Strategy &amp; Readiness</option>
+              <option value="AI as a Service (AIaaS)">AI as a Service (AIaaS)</option>
+              <option value="Implementation &amp; Delivery">Implementation &amp; Delivery</option>
+              <option value="Responsible AI &amp; Governance">Responsible AI &amp; Governance</option>
+              <option value="General Enquiry">General Enquiry</option>
+              <option value="Partner / Join Network">Partner / Join Network</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="f-message">Tell us about your challenge</label>
+            <textarea class="form-textarea" id="f-message" name="message" placeholder="Briefly describe what you're working on, the challenge you're facing, or what you'd like to explore…" data-crm-field="Description"></textarea>
+          </div>
+
+          <button type="submit" class="form-submit" id="form-submit-btn">Send Enquiry</button>
+
+          <p class="form-note">We respond within one business day. Your information is held by DxSure Ltd in accordance with UK GDPR.</p>
+        </form>
+
+        <div class="form-success" id="form-success">
+          <div class="form-success-icon">✓</div>
+          <h3>Enquiry received</h3>
+          <p>Thank you — we'll be in touch within one business day.<br>You can also reach us directly at <a href="mailto:info@dxsure.uk">info@dxsure.uk</a>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="#" class="footer-logo">Agentics<span style="color:var(--primary);">.</span>Consulting</a>
+      <div style="font-size:0.7rem; margin-bottom:0.125rem; color:rgba(255,255,255,0.5);">Agentic AI Consulting by DxSure Ltd</div>
+      <div style="font-size:0.65rem; margin-bottom:0.625rem; color:rgba(255,255,255,0.25);">dxsure.uk</div>
+      <div class="footer-links">
+        <a href="#offerings">Capabilities</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://london.agentics.org?utm_source=agentics-consulting&utm_medium=website&utm_campaign=footer" target="_blank" rel="noopener" class="footer-foundation-link">Agentics Foundation</a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <p>&copy; 2026 DxSure Ltd</p>
+      <p style="margin-top:0.5rem;">DxSure Ltd &middot; Company No. 15957322</p>
+      <p>Registered in England &amp; Wales</p>
+      <p style="margin-top:0.625rem; font-size:0.7rem; color:rgba(255,255,255,0.2);">
+        Ambassador &middot; Agentics Foundation London Chapter
+      </p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════════ -->
+<script>
+  /* 1. Capture UTM params from URL into hidden form fields */
+  (function() {
+    var p = new URLSearchParams(window.location.search);
+    [['utm_source','f-utm-source'],['utm_medium','f-utm-medium'],
+     ['utm_campaign','f-utm-campaign'],['utm_content','f-utm-content']
+    ].forEach(function(pair) {
+      var v = p.get(pair[0]);
+      if (v) { var el = document.getElementById(pair[1]); if (el) el.value = v; }
+    });
+  })();
+
+  /* 2. Record which CTA triggered the form */
+  document.querySelectorAll('[data-cta-source]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var s = document.getElementById('f-cta-source');
+      if (s) s.value = this.dataset.ctaSource;
+    });
+  });
+
+  /* 3. Pre-select service interest from partner/service buttons */
+  function setServiceInterest(value) {
+    var sel = document.getElementById('f-service');
+    if (sel) {
+      var decoded = value.replace(/&amp;/g,'&');
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === decoded || sel.options[i].value === value) {
+          sel.selectedIndex = i; break;
+        }
+      }
+    }
+    var s = document.getElementById('f-cta-source');
+    if (s) s.value = 'enquire-button:' + value;
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* 4. Form submission → Google Sheets via Apps Script
+     Apps Script doesn't support full CORS, so we use mode:'no-cors'.
+     That returns an opaque response (unreadable), but the data
+     IS written to the Sheet. Network completion without error = success.
+     TO MIGRATE TO ZOHO CRM LATER: replace SHEET_URL with your
+     Zoho Web-to-Lead URL and update field names to match Zoho's
+     expected parameters. The data-crm-field attributes on every
+     input are ready for that mapping. */
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwjAOnta4cc1BgruPNJQiq964C8PiKaCGoTbcINCwfYQRL3Jvkhdx8goRAyBLrysJTP/exec';
+
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    var btn  = document.getElementById('form-submit-btn');
+
+    var firstName = form.querySelector('#f-first-name').value.trim();
+    var lastName  = form.querySelector('#f-last-name').value.trim();
+    var company   = form.querySelector('#f-company').value.trim();
+    var email     = form.querySelector('#f-email').value.trim();
+    var phone     = form.querySelector('#f-phone').value.trim();
+    var service   = form.querySelector('#f-service').value;
+    var message   = form.querySelector('#f-message').value.trim();
+
+    if (!firstName || !lastName || !company || !email || !service) {
+      alert('Please fill in all required fields.'); return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('Please enter a valid email address.'); return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Sending…';
+
+    var payload = new URLSearchParams({
+      name:         firstName + ' ' + lastName,
+      email:        email,
+      company:      company,
+      phone:        phone,
+      service:      service,
+      message:      message,
+      lead_source:  'Website',
+      utm_source:   form.querySelector('#f-utm-source').value,
+      utm_medium:   form.querySelector('#f-utm-medium').value,
+      utm_campaign: form.querySelector('#f-utm-campaign').value,
+      utm_content:  form.querySelector('#f-utm-content').value,
+      cta_source:   form.querySelector('#f-cta-source').value
+    });
+
+    fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: payload })
+      .then(function() {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.textContent = 'Send Enquiry';
+        alert('Sorry — there was a problem sending your enquiry. Please email us directly at info@dxsure.uk');
+      });
+  });
+</script>
+
 </body>
-</html> 
+</html>
