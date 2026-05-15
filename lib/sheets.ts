@@ -9,14 +9,14 @@ export interface SheetResult {
 
 export async function getSheetData(spreadsheetId: string): Promise<SheetResult> {
   try {
-    const privateKey = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ?? "")
-      .replace(/\\n/g, "\n");
+    // Decode the base64-encoded service account JSON — avoids OpenSSL 3 / Vercel
+    // private-key newline mangling that causes error:1E08010C:DECODER routines::unsupported
+    const credentials = JSON.parse(
+      Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS!, "base64").toString("utf8")
+    );
 
     const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: privateKey,
-      },
+      credentials,
       scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
 
