@@ -199,6 +199,7 @@
       padding: 1.125rem 2rem;
       max-width: 1080px; margin: 0 auto;
     }
+    .logo-wrap { display: flex; flex-direction: column; gap: 0.1rem; text-decoration: none; }
     .logo {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1.5rem; font-weight: 600;
@@ -207,6 +208,12 @@
     }
     /* The dot in the logo is navy — it's our brand mark, not Foundation coral */
     .logo-dot { color: var(--primary); }
+    .logo-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem; font-weight: 400;
+      color: var(--secondary); letter-spacing: 0.04em;
+      white-space: nowrap; line-height: 1;
+    }
 
     .nav-links { display: flex; gap: 2rem; }
     .nav-links a {
@@ -528,7 +535,10 @@
 ═══════════════════════════════════════════════════════════════ -->
 <div class="nav-wrap">
   <div class="nav-inner">
-    <a href="#" class="logo">Agentics<span class="logo-dot">.</span>Consulting</a>
+    <a href="#" class="logo-wrap">
+      <span class="logo">Agentics<span class="logo-dot">.</span>Consulting</span>
+      <span class="logo-sub">Agentic AI Consulting by DxSure Ltd</span>
+    </a>
 
     <ul class="nav-links" id="nav-links">
       <li><a href="#offerings">Capabilities</a></li>
@@ -576,8 +586,6 @@
 ═══════════════════════════════════════════════════════════════ -->
 <div class="trust-bar">
   <div class="trust-bar-inner">
-    <span>Brand trademark pending &mdash; UK Intellectual Property Office</span>
-    <span class="trust-sep"></span>
     <span>A trading brand of <strong>DxSure Ltd</strong> &middot; Co. No. 15957322</span>
     <span class="trust-sep"></span>
     <span class="ambassador-badge">
@@ -952,7 +960,8 @@
   <div class="footer-inner">
     <div>
       <a href="#" class="footer-logo">Agentics<span style="color:var(--primary);">.</span>Consulting</a>
-      <div style="font-size:0.75rem; margin-bottom:0.5rem; color:rgba(255,255,255,0.35);">A trading brand of DxSure Ltd</div>
+      <div style="font-size:0.7rem; margin-bottom:0.125rem; color:rgba(255,255,255,0.5);">Agentic AI Consulting by DxSure Ltd</div>
+      <div style="font-size:0.65rem; margin-bottom:0.625rem; color:rgba(255,255,255,0.25);">dxsure.uk</div>
       <div class="footer-links">
         <a href="#offerings">Capabilities</a>
         <a href="#services">Services</a>
@@ -962,8 +971,7 @@
       </div>
     </div>
     <div class="footer-right">
-      <p>&copy; 2026 Agentics Consulting</p>
-      <p>Brand trademark application pending &middot; UK IPO</p>
+      <p>&copy; 2026 DxSure Ltd</p>
       <p style="margin-top:0.5rem;">DxSure Ltd &middot; Company No. 15957322</p>
       <p>Registered in England &amp; Wales</p>
       <p style="margin-top:0.625rem; font-size:0.7rem; color:rgba(255,255,255,0.2);">
